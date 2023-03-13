@@ -1,12 +1,20 @@
-from random import choices
+from random import choices, randint
+
 import time
 
-print ("Enter the number of queens")
-N = int(input())
+State = list[int] # a genetic representation of a solution
+Population = list[State]
 
-initial_state = tuple([0] * N) # so it can be used as a dictionary key
+def generate_state(length: int) -> State:
+    return choices([0, 1], k=length)
 
-def evaluate_heuristic(state):
+# a function to generate new solutions
+def generate_population(size: int, state_length: int) -> Population: 
+    return [generate_state(state_length) for _ in range(size)]
+
+# a fitness function to evaluate solutions
+def fitness(state: State) -> int:
+    N = len(state)
     row = [0] * N
     main_diag = [0]*(N*2 - 1)
     sub_diag = [0]*(N*2 - 1)
@@ -22,18 +30,21 @@ def evaluate_heuristic(state):
         sub_diag[state[col] + col] += 1
     return h
 
+# a selection function to select parents to generate a solution
+def parent_selection(population: Population) -> list[State, State]:
+    return choices(
+        population=population,
+        weights=[fitness(state) for state in population],
+        k=2
+    )
 
-genome = list[int] 
-population = list[genome]
+def crossover(a: State, b: State) -> list[State, State]:
+    c = randint(1, len(a)-1)
+    
 
-def generate_genome(length: int) -> genome:
-    return choices([0, 1], k=length)
 
-def generate_population(size: int, genome_length: int) -> population:
-    return [generate_genome(genome_length)]
-
-genome = generate_genome(N)
-print (genome)
+State = generate_state(N)
+print (State)
 
 # def genetic_algorithm(population, fitness) -> genome:
     
