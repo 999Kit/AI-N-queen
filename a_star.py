@@ -95,61 +95,60 @@ def A_star():
                     heapq.heappush(pq, child)
     return None
 
-# def UCS():
-#     root = Node(initial_state, 0, 0)
-#     reached = {} # dictionary
-#     pq = [] # implemented using list
-
-#     reached[root.state] = 0
-#     heapq.heappush(pq, root)
-    
-#     while pq:
-#         node = heapq.heappop(pq)
-
-#         for col in range(N):
-#             for row in range(N):
-#                 new_state = list(node.state)
-#                 new_state[col] = row
-#                 new_state = tuple(new_state)
-#                 if evaluate_heuristic(new_state) == 0: 
-#                     return Node(new_state, node.g_cost+1, 0)
-#                 if new_state not in reached or node.g_cost+1 < reached[new_state]:
-#                     # print(new_state)
-#                     child = Node(new_state, node.g_cost+ 1, 0)
-#                     reached[new_state] = child.g_cost
-#                     heapq.heappush(pq, child)
-    
-#     return None
-
 def UCS():
-    # root = Node(initial_state, 0, 0)
+    root = Node(initial_state, 0, 0)
     reached = {} # dictionary
     pq = [] # implemented using list
 
-    # reached[root.state] = 0
-    reached[initial_state] = 1
-    # heapq.heappush(pq, root)
-    pq.append(initial_state)
+    reached[root.state] = 0
+    heapq.heappush(pq, root)
     
     while pq:
-        # node = heapq.heappop(pq)
-        cur = pq.pop(0)
+        node = heapq.heappop(pq)
 
         for col in range(N):
             for row in range(N):
-                new_state = list(cur)
+                new_state = list(node.state)
                 new_state[col] = row
                 new_state = tuple(new_state)
-                if evaluate_heuristic(new_state) == 0: 
-                    return Node(new_state, 0, 0)
-                if new_state not in reached:
+                
+                if new_state not in reached or node.g_cost+1 < reached[new_state]:
+                    if evaluate_heuristic(new_state) == 0: 
+                        return Node(new_state, node.g_cost+1, 0)
                     # print(new_state)
-                    # child = Node(new_state, 0, 0)
-                    reached[new_state] = 1
-                    # heapq.heappush(pq, child)
-                    pq.append(new_state)
-    
+                    child = Node(new_state, node.g_cost+ 1, 0)
+                    reached[new_state] = child.g_cost
+                    heapq.heappush(pq, child)
     return None
+
+# def UCS():
+#     # root = Node(initial_state, 0, 0)
+#     reached = {} # dictionary
+#     pq = [] # implemented using list
+
+#     # reached[root.state] = 0
+#     reached[initial_state] = 1
+#     # heapq.heappush(pq, root)
+#     pq.append(initial_state)
+    
+#     while pq:
+#         # node = heapq.heappop(pq)
+#         cur = pq.pop(0)
+
+#         for col in range(N):
+#             for row in range(N):
+#                 new_state = list(cur)
+#                 new_state[col] = row
+#                 new_state = tuple(new_state)
+#                 if evaluate_heuristic(new_state) == 0: 
+#                     return Node(new_state, 0, 0)
+#                 if new_state not in reached:
+#                     # print(new_state)
+#                     # child = Node(new_state, 0, 0)
+#                     reached[new_state] = 1
+#                     # heapq.heappush(pq, child)
+#                     pq.append(new_state)
+#     return None
 
 start_time = time.time()
 # goal = A_star()
