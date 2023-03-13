@@ -7,12 +7,15 @@ State = list[int] # a genetic representation of a solution
 Population = list[State]
 
 
+
 # N = 8
 print ("Enter the number of queens")
 N = int(input())
 
-Mutation_rate: float = 0.01
-Population_size: int = 4
+Mutation_rate: float = 0.1
+Population_size: int = 100
+Queen_pairs = comb(N, 2)
+Generation_limit = int
 
 def generate_state(length: int) -> State:
     return choices(list(range(0,N)), k=length)
@@ -37,7 +40,7 @@ def fitness(state: State) -> int:
         row[state[col]] += 1
         main_diag[state[col] - col - 1 + N] += 1
         sub_diag[state[col] + col] += 1
-    return comb(N, 2) - h
+    return Queen_pairs - h
 
 # a selection function to select parents to generate a solution
 def parent_selection(population: Population) -> list[State, State]:
@@ -61,44 +64,17 @@ def mutation(state: State) -> State:
             state[index] = choices(list(range(0,N)), k=1)[0]
     return state
 
-
-
-# c = randint(1, 5)
-
-# a = [0,1,1,0,1,0,0,0]
-# a+=[99, 97]
-# print(a)
-# print(mutation(a))
-# print(Mutation_rate, 1- Mutation_rate)
-# population = generate_population(Population_size,8)
-
-# parent1, parent2 = parent_selection(population)
-# print(parent1, parent2)
-
-
-# num: int = 1
-# for _ in range(num):
-#     print("hi")
-# print(a)
-# print (a[1:5])
-
-# State = generate_state(N)
-# print (State)
-
 def genetic_algorithm() -> State:
     population = generate_population(Population_size,N)
-    print(population)
 
     while 1:
     # for i in range(2):
-        for state in population:
-            if fitness(state) == 0:
-                print(state)
-                return state
-        population2: Population = []
-        for i in range(int(Population_size/2)):
+        population.sort(key=fitness, reverse=True)
+        if fitness(population[0]) == Queen_pairs:
+            return population[0]
+        population2 = population[0:4]
+        for i in range(int(Population_size/2) - 2):
             parent1, parent2 = parent_selection(population)
-            # print(fitness(parent1), fitness(parent2))
             child1, child2 = crossover(parent1, parent2)
             if choices([1, 0], weights=[Mutation_rate, 1 - Mutation_rate], k = 1)[0]:
                 mutation(child1)
@@ -106,10 +82,13 @@ def genetic_algorithm() -> State:
                 mutation(child2)
             population2 += [child1, child2]
         population = population2
-        # print(population)
             
     return []
 
 
-# print(fitness(population[0]))
-print(genetic_algorithm())
+start_time = time.time()
+goal = genetic_algorithm()
+print((time.time() - start_time)*1000)
+
+print(goal)
+print(fitness(goal))
