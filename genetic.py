@@ -12,8 +12,8 @@ Population = list[State]
 print ("Enter the number of queens")
 N = int(input())
 
-Mutation_rate: float = 0.1
-Population_size: int = 100
+Mutation_rate: float = 0.2
+Population_size: int = 2*N*N
 Queen_pairs = comb(N, 2)
 Generation_limit = int
 
@@ -40,13 +40,14 @@ def fitness(state: State) -> int:
         row[state[col]] += 1
         main_diag[state[col] - col - 1 + N] += 1
         sub_diag[state[col] + col] += 1
-    return Queen_pairs - h
+    return h
 
 # a selection function to select parents to generate a solution
 def parent_selection(population: Population) -> list[State, State]:
+    # weight = []
     return choices(
         population=population,
-        weights=[fitness(state) for state in population],
+        weights=[Queen_pairs - fitness(state) for state in population],
         k=2
     )
 
@@ -69,9 +70,12 @@ def genetic_algorithm() -> State:
 
     while 1:
     # for i in range(2):
-        population.sort(key=fitness, reverse=True)
-        if fitness(population[0]) == Queen_pairs:
+        population.sort(key=fitness)
+        # population.sort(key=fitness, reverse=True)
+        if fitness(population[0]) == 0:
             return population[0]
+        # if fitness(population[0]) == Queen_pairs:
+        #     return population[0]
         population2 = population[0:4]
         for i in range(int(Population_size/2) - 2):
             parent1, parent2 = parent_selection(population)
@@ -92,3 +96,12 @@ print((time.time() - start_time)*1000)
 
 print(goal)
 print(fitness(goal))
+
+
+# a = [1,2,3,4,5,6]
+# ay =  99
+
+# def fun(n: int):
+#     return 9
+# b = [ay - fun(i) for i in a]
+# print (b)
