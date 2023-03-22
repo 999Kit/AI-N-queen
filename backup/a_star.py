@@ -17,7 +17,7 @@ def print_board(state):
     for cell in board:
         print(cell)
 
-def evaluate_heuristic(state):
+def count_attack(state):
     row = [0] * N
     main_diag = [0]*(N*2 - 1)
     sub_diag = [0]*(N*2 - 1)
@@ -105,6 +105,8 @@ def UCS():
     while pq:
         node = heapq.heappop(pq)
 
+        if evaluate_heuristic(node.state) == 0: 
+            return Node(new_state, node.g_cost+1, 0)
         for col in range(N):
             for row in range(N):
                 new_state = list(node.state)
@@ -112,8 +114,6 @@ def UCS():
                 new_state = tuple(new_state)
                 
                 if new_state not in reached or node.g_cost+1 < reached[new_state]:
-                    if evaluate_heuristic(new_state) == 0: 
-                        return Node(new_state, node.g_cost+1, 0)
                     # print(new_state)
                     child = Node(new_state, node.g_cost+ 1, 0)
                     reached[new_state] = child.g_cost
@@ -149,11 +149,12 @@ def UCS():
 #                     pq.append(new_state)
 #     return None
 
+print("UCS")
+# print("A*")
 start_time = time.time()
-goal = A_star()
-# goal = UCS()
-# print("UCS")
-print("A*")
+# goal = A_star()
+goal = UCS()
+
 print((time.time() - start_time)*1000)
 
 # print(goal)

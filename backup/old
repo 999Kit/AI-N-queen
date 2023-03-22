@@ -1,0 +1,298 @@
+# def pmx_crossover(parent1, parent2):
+#     n = len(parent1)
+#     # Choose two random crossover points
+#     cxpoint1 = randint(0, n-1)
+#     cxpoint2 = randint(0, n-1)
+#     if cxpoint2 < cxpoint1:
+#         cxpoint1, cxpoint2 = cxpoint2, cxpoint1
+
+#     child1 = [-1] * n
+#     child2 = [-1] * n
+#     map2 = {}
+
+#     for i in range (cxpoint1, cxpoint2+1):
+#         map2[parent2[i]] = parent1[i]
+#         child1[i] = parent1[i]
+    
+
+
+    # Copy the corresponding segments from the parents to create the child chromosomes
+    # for i in range(cxpoint1, cxpoint2+1):
+    #     child1[i] = parent1[i]
+    #     child2[i] = parent2[i]
+    # for i in range(n):
+    #     if i < cxpoint1 or i > cxpoint2:
+    #         # Check for conflicts and find the corresponding position using the PMX algorithm
+    #         p1_pos = parent1[i]
+    #         p2_pos = parent2[i]
+    #         while p1_pos in child2[cxpoint1:cxpoint2+1]:
+    #             idx = child2.index(p1_pos)
+    #             p1_pos = parent1[idx]
+    #         while p2_pos in child1[cxpoint1:cxpoint2+1]:
+    #             idx = child1.index(p2_pos)
+    #             p2_pos = parent2[idx]
+    #         child1[i] = p2_pos
+    #         child2[i] = p1_pos
+    # return child1, child2
+
+# def pmx_crossover(parent1, parent2):
+#     n = len(parent1)
+#     # Choose two random crossover points
+#     cxpoint1 = randint(0, n-1)
+#     cxpoint2 = randint(0, n-1)
+#     if cxpoint2 < cxpoint1:
+#         cxpoint1, cxpoint2 = cxpoint2, cxpoint1
+#     # Copy the corresponding segments from the parents to create the child chromosomes
+#     mapping1 = {}
+#     mapping2 = {}
+#     child1 = [-1]*n
+#     child2 = [-1]*n
+
+#     # Map Slice:
+#     for i in range (cxpoint1, cxpoint2):
+#         mapping1[parent2[i]] = parent1[i]
+#         child1[i] = parent2[i]
+
+#         mapping2[parent1[i]] = parent2[i]
+#         child2[i] = parent1[i]
+    
+
+#     # Repair Lower Slice:
+#     for i in range (cxpoint1):
+#         while child1[i] in mapping1:
+#             child1[i] = mapping1[child1[i]]
+        
+#         while child2[i] in mapping2:
+#             child2[i] = mapping2[child2[i]]
+
+#     # Repair Upper Slice:
+#     for i in range (cxpoint2, n):
+#         while child1[i] in mapping1:
+#             child1[i] = mapping1[child1[i]]
+        
+#         while child2[i] in mapping2:
+#             child2[i] = mapping2[child2[i]]
+
+#     return child1, child2
+
+
+    # pos = randint(0, N-1)
+    # old = state[pos]
+    # replace = randint(0, N-1)
+    # while replace == old:
+    #     replace = randint(0, N-1)
+    # state[pos] = replace
+    # return state
+    # for index in range(0, len(state)):
+    #     flip = choices([1, 0], weights=[Mutation_rate, 1 - Mutation_rate], k = 1)[0]
+    #     if flip == 1:
+    #         state[index] = choices(list(range(0,N)), k=1)[0]
+            # old = state[index]
+            # replace = randint(0, N-1)
+            # while replace == old:
+            #     replace = randint(0, N-1)
+            # state[index] = replace
+    # for _ in range(2)
+
+    
+# def crossover(a: State, b: State) -> list[State, State]:
+#     if len(a) < 2:
+#         return a, b
+
+#     c = randint(1, len(a)-1)
+#     return a[0:c]+ b[c:], b[0:c] + a[c:]
+
+# a = [8,4,7,3,6,2,5,1,9,0]
+# b = [0,1,2,3,4,5,6,7,8,9]
+
+# c1, c2 = pmx_crossover(a, b)
+# print(c1)
+# print(c2)
+
+# print(goal)
+# print(fitness(goal))
+# print(population)
+
+# a = [1,2,3,4,5,6]
+# ay =  99
+
+# def fun(n: int):
+#     return 9
+# b = [ay - fun(i) for i in a]
+# print (b)
+
+# def generate_state() -> State:
+#     return choices(list(range(0,N)), k=N)
+
+    # return choices(
+    #     population=p,
+    #     weights=[Queen_pairs - fitness(state) for state in p],
+    #     k=2
+    # )
+
+# from random import choices, randint, uniform
+# from math import comb
+# from numpy import random
+# import tracemalloc
+
+# import time
+
+# State = list[int] # a genetic representation of a solution
+# Population = list[State]
+
+# # print ("Enter the number of queens")
+# # N = int(input())
+# N = 100
+
+# Mutation_rate: float = 80
+# # Population_size: int = 2*N*N
+# Population_size: int = 100
+# Queen_pairs = comb(N, 2)
+# Generation_limit = int
+
+
+# def generate_state() -> State:
+#     state = list(range(0, N))
+#     for _ in range(N):
+#         pos1 = randint(0, N-1)
+#         pos2 = randint(0, N-1)
+#         state[pos1], state[pos2] = state[pos2], state[pos1]
+#     return state
+
+# # a function to generate new solutions
+# def generate_population(size: int) -> Population: 
+#     return [generate_state() for _ in range(size)]
+
+# # a fitness function to evaluate solutions
+# def fitness(state: State) -> int:
+#     row = [0] * N
+#     main_diag = [0]*(N*2 - 1)
+#     sub_diag = [0]*(N*2 - 1)
+
+#     h = 0
+#     for col in range(N):
+#         h += row[state[col]]
+#         h += main_diag[state[col] - col - 1 + N]
+#         h += sub_diag[state[col] + col]
+
+#         row[state[col]] += 1
+#         main_diag[state[col] - col - 1 + N] += 1
+#         sub_diag[state[col] + col] += 1
+#     return h
+
+# # a selection function to select parents to generate a solution
+# def parent_selection(p: Population) -> list[State, State]:
+#     fits = [Queen_pairs - fitness(state) for state in p]
+#     fit_sum = int(sum(fits))
+#     roulette = [fit/fit_sum for fit in fits]
+#     ind1, ind2 = random.choice(Population_size, 2, p = roulette)
+
+#     return [p[ind1], p[ind2]]
+
+
+# def mutation(state: State) -> State:
+#     pos1 = randint(0, N-1)
+#     pos2 = randint(0, N-1)
+#     state[pos1], state[pos2] = state[pos2], state[pos1]
+#     return state
+
+# def pmx_crossover(parent1, parent2):
+
+#     cross1 = randint(0, N-2)
+#     cross2 = randint(cross1+1, N-1)
+
+#     child1 = list(parent1)
+#     child2 = list(parent2)
+
+#     for i in range(cross1, cross2+1):
+#         if child1[i] != parent2[i]:
+#             pos1 = child1.index(parent2[i])
+#             child1[i], child1[pos1] = child1[pos1], child1[i]
+
+#         if child2[i] != parent1[i]:
+#             pos2 = child2.index(parent1[i])
+#             child2[i], child2[pos2] = child2[pos2], child2[i]
+#     return child1, child2
+
+
+# def genetic_algorithm() -> State:
+#     global population
+#     gen = 2
+#     elitism_size = int(Population_size/10)
+#     # if elitism_size % 2 == 1:
+#     #     elitism_size += 1
+#     while gen:
+#         population.sort(key=fitness)
+#         f = fitness(population[0])
+        
+#         # done
+#         if f == 0:
+#             print("Generation: ", gen)
+#             return population[0]
+#         population = population[:Population_size]
+#         if gen % 1000 == 0:
+#             print(gen, f)
+#         gen += 1
+
+#         population2 = population[0:elitism_size]
+
+#         for i in range(int(Population_size/2)):
+#             parent1, parent2 = parent_selection(population)
+#             child1, child2 = pmx_crossover(parent1, parent2)
+#             if randint(0,99) <= Mutation_rate:
+#                 child1 = mutation(child1)
+#             if randint(0,99) <= Mutation_rate:
+#                 child2 = mutation(child2)
+#             population2 += [child1, child2]
+            
+#         population = population2
+#     return []
+
+# population = generate_population(Population_size)
+
+# print("GA")
+# print("N = ", N)
+
+# tracemalloc.start()
+# start_time = time.time()
+
+# genetic_algorithm()
+
+# run_time = (time.time() - start_time)*1000
+# memory = tracemalloc.get_traced_memory()
+
+# print("Running time(ms): ", run_time)
+# print("Memory(MB): ", memory)
+
+
+
+# print ("Enter the number of queens")
+# N = int(input())
+# N = 8
+# # N = 100
+
+# # Mutation_rate: int
+# # Population_size: int = 2*N*N
+# Population_size: int = 100
+# Queen_pairs = N*(N-1)/2
+# Generation_limit = int
+
+    # fit_sum = sum([Queen_pairs -  fit for fit, _ in p])
+    # roulette = [(Queen_pairs - fit)/fit_sum for fit,_ in p]
+    # ind1, ind2 = random.choice(Population_size, 2, p = roulette)
+    # return [p[ind1][1], p[ind2][1]]
+
+        # m_pos = state[col] - col - 1 + N
+        # s_pos = state[col] + col
+        # if m_pos in main_diag:
+        #   h += main_diag[m_pos]
+        # else: 
+        #   main_diag[m_pos] = 0
+        # if s_pos in sub_diag:
+        #   h += sub_diag[s_pos]
+        # else:
+        #   sub_diag[s_pos] = 0
+
+        # main_diag[m_pos] += 1
+        # sub_diag[s_pos] += 1
+
